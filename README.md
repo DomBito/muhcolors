@@ -1,4 +1,4 @@
-Simple script to create color grading and color correction presets and export them to a 3DLUT. The goal is to then use it on videos.
+Simple script to create color grading / color correction presets and export them to a 3DLUT. The goal is to then use it on videos.
 
 Capabilities and qualities:
  - white-balance when testing on images;
@@ -11,7 +11,7 @@ Capabilities and qualities:
  - considerably good performance;
 
 # Usage
-Change the parameters in arguments.py tweak the colors. The presets are all given by RGB and HSV/L values, since these are easy to undertand. The HSV/L (range: hue from 0° to 360°, saturation and value/lightness from 0% to 100%) are all converted to cylindrical CIEluv.
+Change the parameters in arguments.py to tweak the colors. The presets are all given by RGB and HSV/L values, since these are very simple to colorpick and understand. The HSV/L (range: hue from 0° to 360°, saturation and value/lightness from 0% to 100%) numbers are all converted to cylindrical CIEluv.
 Run
  > python makeLUT.py
 
@@ -23,7 +23,7 @@ on your terminal.
 
 ### Apply the 3DLUT to video:
 If you use any video editor, you should be able to import the 3DLUT file with ease.
-Here I included the vapoursynth script cc.py to accomplish it. To avoid artefacting due to possible extreme transformations of the 3DLUT, a fast denoiser is applied to separate any noise or film grain from the footage. The noise is added back to the video after the color correction, and finally a deband filter is applied.
+Here I included the vapoursynth script cc.py to accomplish this. To avoid artefacting due to possible extreme transformations the 3DLUT might do, a fast denoiser is applied to separate any noise or film grain from the footage. The noise is added back to the video after the color correction, and finally a deband filter is applied.
 To preview the cc.py script, run on your terminal:
  > ./vspipepreview.sh /path/to/video.mp4
  

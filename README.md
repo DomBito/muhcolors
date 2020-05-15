@@ -30,6 +30,7 @@ To preview the cc.py script, run on your terminal:
 You can edit vspipepreview.sh to pipe the script to a raw y4m file or to ffmpeg to get a proper encode.
 
 # Examples:
+(untouched|white-balance + 3DLUT given by the script)
 ![](examples/comparison04.png)
 ![](examples/comparison07.png)
 ![](examples/comparison09.png)

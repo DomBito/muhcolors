@@ -266,8 +266,8 @@ def mid_vec(hsv):
     return 2.55*(hsv[1]*hue2normedRGB(hsv[0]) - hsv[2])
 
 def apply_wb(inp,wp,bp,midx,midy,method="mean",mode="clip"):
-    wp = np.asarray(wp).astype(np.float)
-    bp = np.asarray(bp).astype(np.float)
+    wp = np.asarray([wp[2],wp[1],wp[0]]).astype(np.float)
+    bp = np.asarray([bp[2],bp[1],bp[0]]).astype(np.float)
     if method=="mean":
         w = np.mean(wp)
         b = np.mean(bp)
@@ -275,9 +275,9 @@ def apply_wb(inp,wp,bp,midx,midy,method="mean",mode="clip"):
         w = np.max(wp)
         b = np.max(bp)
     elif method=="lstar":
-        w_lsh = bgr2cielsh([[[wp[2],wp[1],wp[0]]]])[0,0]
+        w_lsh = bgr2cielsh([[wp]])[0,0]
         w = cielsh2bgr([[[np.nan,0,w_lsh[2]]]])[0,0,0]
-        b_lsh = bgr2cielsh([[[bp[2],bp[1],bp[0]]]])[0,0]
+        b_lsh = bgr2cielsh([[bp]])[0,0]
         b = cielsh2bgr([[[np.nan,0,b_lsh[2]]]])[0,0,0]
     else:
         print("\nInvalid method, no white-balance done!\n")
@@ -286,8 +286,8 @@ def apply_wb(inp,wp,bp,midx,midy,method="mean",mode="clip"):
         a  = 127.0
         le =   0.0 - a
         ue = 255.0 + a
-        bb = b - bp - le
-        ww = w - wp + ue
+        bb = -b + bp + le
+        ww = -w + wp + ue
     elif mode=="slant":
         a = np.asarray([0.0,0.0,0.0])
         le =   0.0
@@ -297,9 +297,10 @@ def apply_wb(inp,wp,bp,midx,midy,method="mean",mode="clip"):
     else:
         print("\nInvalid mode, no white-balance done!\n")
         return inp
-    r = lin_interp(np.asarray([[bb[2],le],[bp[2],b],[midx,midy[2]],[wp[2],w],[ww[2],ue]]))
-    g = lin_interp(np.asarray([[bb[1],le],[bp[1],b],[midx,midy[1]],[wp[1],w],[ww[1],ue]]))
-    b = lin_interp(np.asarray([[bb[0],le],[bp[0],b],[midx,midy[0]],[wp[0],w],[ww[0],ue]]))
+    scale_fix=100
+    r = lin_interp(np.asarray([[bb[2],le],[bp[2],b],[midx,midy[2]],[wp[2],w],[ww[2],ue]])*100)
+    g = lin_interp(np.asarray([[bb[1],le],[bp[1],b],[midx,midy[1]],[wp[1],w],[ww[1],ue]])*100)
+    b = lin_interp(np.asarray([[bb[0],le],[bp[0],b],[midx,midy[0]],[wp[0],w],[ww[0],ue]])*100)
     out = as_channels(inp)
     out[2] = r(out[2])
     out[1] = g(out[1])

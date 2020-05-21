@@ -25,7 +25,7 @@ on your terminal.
 If you use any video editor, you should be able to import the 3DLUT file with ease.
 Here I included the vapoursynth script cc.py to accomplish this. To avoid artefacting due to possible extreme transformations the 3DLUT might do, a fast denoiser is applied to separate any noise or film grain from the footage. The noise is added back to the video after the color correction, and finally a deband filter is applied.
 To preview the cc.py script, run on your terminal:
- > ./vspipepreview.sh /path/to/video.mp4
+ > ./vspipepreview.sh /path/to/video.avi
  
 You can edit vspipepreview.sh to pipe the script to a raw y4m file or to ffmpeg to get a proper encode.
 
